@@ -1271,9 +1271,9 @@ def itmodstruve0(x: Real) -> Real:
 
 @reference_implementation(scipy=ufuncs.itstruve0)
 def itstruve0(x: Real) -> Real:
-    """Integral of the modified Struve function of order 0."""
+    """Integral of the Struve function of order 0."""
     def f(t):
-        return struve_l._mp(0, t)
+        return struve_h._mp(0, t)
 
     return mp.quad(f, [0, x])
 
