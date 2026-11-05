@@ -1557,9 +1557,11 @@ def modified_fresnel_plus(x: Real) -> Tuple[Complex, Complex]:
     """Modified Fresnel positive integrals."""
     # F+(x) = int_x^inf exp(i t^2) dt, written with mpmath's Fresnel integrals,
     # which use exp(i pi t^2 / 2).
-    u = x * mp.sqrt(2 / mp.pi)
-    fp = mp.sqrt(mp.pi / 2) * mp.mpc(0.5 - mp.fresnelc(u), 0.5 - mp.fresnels(u))
-    kp = fp * mp.expj(-(x * x + mp.pi / 4)) / mp.sqrt(mp.pi)
+    prec = mp.prec if x == 0 else get_resolution_precision(x=x**-2)
+    with mp.workprec(prec):
+        u = x * mp.sqrt(2 / mp.pi)
+        fp = mp.sqrt(mp.pi / 2) * mp.mpc(0.5 - mp.fresnelc(u), 0.5 - mp.fresnels(u))
+        kp = fp * mp.expj(-(x * x + mp.pi / 4)) / mp.sqrt(mp.pi)
     return fp, kp
 
 
